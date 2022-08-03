@@ -1,5 +1,7 @@
 package com.sg.classroster.controller;
 
+import java.util.List;
+
 import com.sg.classroster.dao.ClassRosterDao;
 import com.sg.classroster.dao.ClassRosterDaoFileImpl;
 import com.sg.classroster.dto.Student;
@@ -21,7 +23,7 @@ public class ClassRosterController {
 
             switch (menuSelection) {
                 case 1:
-                    io.print("LIST STUDENTS");
+                    listStudents();
                     break;
                 case 2:
                     createStudent();
@@ -54,5 +56,11 @@ public class ClassRosterController {
         Student newStudent = view.getNewStudentInfo();
         dao.addStudent(newStudent.getStudentId(), newStudent);
         view.displayCreateSuccessBanner();
+    }
+
+    private void listStudents() {
+        view.displayDisplayAllBanner();
+        List<Student> students = dao.getAllStudents();
+        view.displayStudentList(students);
     }
 }
