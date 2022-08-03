@@ -1,5 +1,8 @@
 package com.sg.classroster.controller;
 
+import com.sg.classroster.dao.ClassRosterDao;
+import com.sg.classroster.dao.ClassRosterDaoFileImpl;
+import com.sg.classroster.dto.Student;
 import com.sg.classroster.ui.ClassRosterView;
 import com.sg.classroster.ui.UserIO;
 import com.sg.classroster.ui.UserIOConsoleImpl;
@@ -7,6 +10,7 @@ import com.sg.classroster.ui.UserIOConsoleImpl;
 public class ClassRosterController {
     private ClassRosterView view = new ClassRosterView();
     private UserIO io = new UserIOConsoleImpl();
+    private ClassRosterDao dao = new ClassRosterDaoFileImpl();
 
     public void run() {
         boolean keepGoing = true;
@@ -20,7 +24,7 @@ public class ClassRosterController {
                     io.print("LIST STUDENTS");
                     break;
                 case 2:
-                    io.print("CREATE STUDENT");
+                    createStudent();
                     break;
                 case 3:
                     io.print("VIEW STUDENT");
@@ -43,5 +47,12 @@ public class ClassRosterController {
 
     private int getMenuSelection() {
         return view.printMenuAndGetSelection();
+    }
+
+    private void createStudent() {
+        view.displayCreateStudentBanner();
+        Student newStudent = view.getNewStudentInfo();
+        dao.addStudent(newStudent.getStudentId(), newStudent);
+        view.displayCreateSuccessBanner();
     }
 }
