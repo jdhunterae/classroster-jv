@@ -1,5 +1,7 @@
 package com.sg.classroster.ui;
 
+import java.util.List;
+
 import com.sg.classroster.dto.Student;
 
 public class ClassRosterView {
@@ -32,5 +34,21 @@ public class ClassRosterView {
     public void displayCreateSuccessBanner() {
         io.print("Student successfully created.");
         io.readString("Please press enter to continue.");
+    }
+
+    public void displayStudentList(List<Student> studentList) {
+        for (Student student : studentList) {
+            String info = String.format("%s : %s %s %s",
+                    student.getStudentId(),
+                    student.getFirstName(),
+                    student.getLastName(), student.getCohort());
+            io.print(info);
+        }
+
+        io.readString("Please press enter to continue.");
+    }
+
+    public void displayDisplayAllBanner() {
+        io.print("=== Display All Students ===");
     }
 }
