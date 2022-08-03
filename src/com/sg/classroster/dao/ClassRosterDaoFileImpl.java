@@ -22,7 +22,7 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
 
     @Override
     public Student getStudent(String studentId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return students.get(studentId);
     }
 
     @Override
