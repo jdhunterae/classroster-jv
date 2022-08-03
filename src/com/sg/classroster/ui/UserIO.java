@@ -19,7 +19,7 @@ public interface UserIO {
 
     long readLong(String prompt, long min, long max);
 
-    public void readString(String prompt);
+    public String readString(String prompt);
 
     public void close();
 }
