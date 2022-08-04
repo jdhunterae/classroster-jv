@@ -72,4 +72,18 @@ public class ClassRosterView {
 
         io.readString("Please press enter to continue.");
     }
+
+    public void displayRemoveStudentBanner() {
+        io.print("=== Remove Student ===");
+    }
+
+    public void displayRemoveResult(Student student) {
+        if (student != null) {
+            io.print("Student successfully removed.");
+        } else {
+            io.print("No such student.");
+        }
+
+        io.readString("Please press enter to continue.");
+    }
 }
