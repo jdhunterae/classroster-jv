@@ -3,6 +3,9 @@ package com.sg.classroster.dao;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +38,15 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
     @Override
     public Student removeStudent(String studentId) {
         return students.remove(studentId);
+    }
+
+    private String marshalStudent(Student student) {
+        String studentAsText = student.getStudentId() + DELIMITER;
+        studentAsText += student.getFirstName() + DELIMITER;
+        studentAsText += student.getLastName() + DELIMITER;
+        studentAsText += student.getCohort() + DELIMITER;
+
+        return studentAsText;
     }
 
     private Student unmarshalStudent(String studentAsText) {
@@ -71,6 +83,28 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
         } finally {
             if (scanner != null) {
                 scanner.close();
+            }
+        }
+    }
+
+    private void writeRoster() throws ClassRosterDaoException {
+        PrintWriter writer = null;
+
+        try {
+            writer = new PrintWriter(new FileWriter(ROSTER_FILE));
+            String studentAsText;
+            List<Student> studentList = new ArrayList<>(students.values());
+
+            for (Student student : studentList) {
+                studentAsText = marshalStudent(student);
+                writer.println(studentAsText);
+                writer.flush();
+            }
+        } catch (IOException e) {
+            throw new ClassRosterDaoException("-_- Could not write roster data into memory", e);
+        } finally {
+            if (writer != null) {
+                writer.close();
             }
         }
     }
