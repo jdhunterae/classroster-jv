@@ -15,29 +15,37 @@ import java.util.Scanner;
 import com.sg.classroster.dto.Student;
 
 public class ClassRosterDaoFileImpl implements ClassRosterDao {
-    public static final String ROSTER_FILE = "roster.txt";
+    public static final String ROSTER_FILE = "res/roster.txt";
     public static final String DELIMITER = "::";
 
     final Map<String, Student> students = new HashMap<>();
 
     @Override
-    public Student addStudent(String studentId, Student student) {
-        return students.put(studentId, student);
+    public Student addStudent(String studentId, Student student) throws ClassRosterDaoException {
+        loadRoster();
+        Student newStudent = students.put(studentId, student);
+        writeRoster();
+        return newStudent;
     }
 
     @Override
-    public List<Student> getAllStudents() {
+    public List<Student> getAllStudents() throws ClassRosterDaoException {
+        loadRoster();
         return new ArrayList<Student>(students.values());
     }
 
     @Override
-    public Student getStudent(String studentId) {
+    public Student getStudent(String studentId) throws ClassRosterDaoException {
+        loadRoster();
         return students.get(studentId);
     }
 
     @Override
-    public Student removeStudent(String studentId) {
-        return students.remove(studentId);
+    public Student removeStudent(String studentId) throws ClassRosterDaoException {
+        loadRoster();
+        Student removedStudent = students.remove(studentId);
+        writeRoster();
+        return removedStudent;
     }
 
     private String marshalStudent(Student student) {
