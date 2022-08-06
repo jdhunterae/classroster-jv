@@ -15,10 +15,18 @@ import java.util.Scanner;
 import com.sg.classroster.dto.Student;
 
 public class ClassRosterDaoFileImpl implements ClassRosterDao {
-    public static final String ROSTER_FILE = "res/roster.txt";
+    private final String roster_file;
     public static final String DELIMITER = "::";
 
     final Map<String, Student> students = new HashMap<>();
+
+    public ClassRosterDaoFileImpl() {
+        this("res/roster.txt");
+    }
+
+    public ClassRosterDaoFileImpl(String roster_file) {
+        this.roster_file = roster_file;
+    }
 
     @Override
     public Student addStudent(String studentId, Student student) throws ClassRosterPersistenceException {
@@ -76,7 +84,7 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
 
         try {
             scanner = new Scanner(new BufferedReader(
-                    new FileReader(ROSTER_FILE)));
+                    new FileReader(roster_file)));
 
             String line;
             Student student;
@@ -99,7 +107,7 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
         PrintWriter writer = null;
 
         try {
-            writer = new PrintWriter(new FileWriter(ROSTER_FILE));
+            writer = new PrintWriter(new FileWriter(roster_file));
             String studentAsText;
             List<Student> studentList = new ArrayList<>(students.values());
 
